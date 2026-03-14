@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DualStream - Share Music Together</title>
+<meta name="description" content="Stream music to two Bluetooth headphones simultaneously. Connect Spotify or play local files.">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0a0a1a">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="app">
+  <!-- Animated Background -->
+  <div class="bg-orbs">
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 48 48" fill="none"><circle cx="16" cy="24" r="10" stroke="url(#g1)" stroke-width="2.5"/><circle cx="32" cy="24" r="10" stroke="url(#g2)" stroke-width="2.5"/><path d="M24 14v20" stroke="url(#g3)" stroke-width="2" stroke-dasharray="3 3"/><defs><linearGradient id="g1" x1="6" y1="14" x2="26" y2="34"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#6366f1"/></linearGradient><linearGradient id="g2" x1="22" y1="14" x2="42" y2="34"><stop stop-color="#6366f1"/><stop offset="1" stop-color="#06b6d4"/></linearGradient><linearGradient id="g3" x1="24" y1="14" x2="24" y2="34"><stop stop-color="#a855f7"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs></svg>
+      </div>
+      <div class="logo-text">
+        <h1>DualStream</h1>
+        <span class="tagline">Share Music Together</span>
+      </div>
+    </div>
+    <button class="btn-icon" id="infoBtn" title="How it works">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    </button>
+  </header>
+
+  <!-- Info Modal -->
+  <div class="modal-overlay" id="infoModal">
+    <div class="modal glass-card">
+      <h2>How It Works</h2>
+      <div class="steps">
+        <div class="step"><span class="step-num">1</span><p>Pair both Bluetooth headphones to your device via system settings</p></div>
+        <div class="step"><span class="step-num">2</span><p>Select each headphone in the device panels below</p></div>
+        <div class="step"><span class="step-num">3</span><p>Load music from Spotify or local files</p></div>
+        <div class="step"><span class="step-num">4</span><p>Press play — both headphones receive audio!</p></div>
+      </div>
+      <p class="note">⚠️ Best on Chrome/Edge. Both headphones must be paired first.</p>
+      <button class="btn btn-primary" id="closeModal">Got it!</button>
+    </div>
+  </div>
+
+  <!-- Bluetooth Setup Guide Modal -->
+  <div class="modal-overlay" id="btSetupModal">
+    <div class="modal glass-card bt-modal">
+      <button class="modal-close" id="closeBtModal">&times;</button>
+      <h2>📡 Bluetooth Setup Guide</h2>
+      <p class="bt-subtitle">Follow these steps to connect your headphones</p>
+      <div class="bt-tabs">
+        <button class="bt-tab active" data-os="android">🤖 Android</button>
+        <button class="bt-tab" data-os="windows">🖥️ Windows</button>
+        <button class="bt-tab" data-os="ios">🍎 iOS</button>
+        <button class="bt-tab" data-os="mac">💻 Mac</button>
+      </div>
+      <div class="bt-guide" id="btGuideContent">
+        <div class="bt-os-guide active" data-os="android">
+          <div class="step"><span class="step-num">1</span><p>Put <strong>both</strong> headphones in pairing mode (usually hold power button until light flashes)</p></div>
+          <div class="step"><span class="step-num">2</span><p>Open <strong>Settings → Connected devices → Pair new device</strong></p></div>
+          <div class="step"><span class="step-num">3</span><p>Tap on <strong>Headphone 1</strong> to pair it</p></div>
+          <div class="step"><span class="step-num">4</span><p>Go back and tap <strong>Pair new device</strong> again for Headphone 2</p></div>
+          <div class="step"><span class="step-num">5</span><p>Return to DualStream, tap <strong>Scan for Devices</strong> below</p></div>
+          <div class="bt-tip">💡 <strong>Tip:</strong> Samsung phones have built-in <strong>Dual Audio</strong> — enable in Settings → Connections → Bluetooth → ⋮ → Dual Audio</div>
+        </div>
+        <div class="bt-os-guide" data-os="windows">
+          <div class="step"><span class="step-num">1</span><p>Put headphones in pairing mode</p></div>
+          <div class="step"><span class="step-num">2</span><p>Click <strong>Start → Settings → Bluetooth & devices</strong></p></div>
+          <div class="step"><span class="step-num">3</span><p>Click <strong>Add device → Bluetooth</strong></p></div>
+          <div class="step"><span class="step-num">4</span><p>Select your first headphone, wait for it to connect</p></div>
+          <div class="step"><span class="step-num">5</span><p>Repeat for the second headphone</p></div>
+          <div class="bt-tip">💡 <strong>Tip:</strong> Both headphones will appear in the audio device dropdown once paired.</div>
+        </div>
+        <div class="bt-os-guide" data-os="ios">
+          <div class="step"><span class="step-num">1</span><p>Put headphones in pairing mode</p></div>
+          <div class="step"><span class="step-num">2</span><p>Go to <strong>Settings → Bluetooth</strong></p></div>
+          <div class="step"><span class="step-num">3</span><p>Tap on each headphone under "Other Devices" to pair</p></div>
+          <div class="step"><span class="step-num">4</span><p>For dual output, use <strong>Share Audio</strong> (AirPods/Beats only)</p></div>
+          <div class="bt-tip">⚠️ <strong>Note:</strong> iOS Safari has limited support for audio routing. Use Chrome for best results.</div>
+        </div>
+        <div class="bt-os-guide" data-os="mac">
+          <div class="step"><span class="step-num">1</span><p>Put headphones in pairing mode</p></div>
+          <div class="step"><span class="step-num">2</span><p>Click <strong>Apple menu → System Settings → Bluetooth</strong></p></div>
+          <div class="step"><span class="step-num">3</span><p>Click <strong>Connect</strong> next to each headphone</p></div>
+          <div class="step"><span class="step-num">4</span><p>Open <strong>Audio MIDI Setup</strong> → Create a Multi-Output Device for dual output</p></div>
+          <div class="bt-tip">💡 <strong>Tip:</strong> macOS supports multi-output natively via Audio MIDI Setup utility.</div>
+        </div>
+      </div>
+      <div class="bt-scan-section">
+        <p>Already paired? Scan to discover your devices:</p>
+        <button class="btn btn-primary btn-scan-lg" id="btScanFromModal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/><path d="M2 12h20"/></svg> Scan for Bluetooth Devices</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Device Selection -->
+  <section class="section devices-section">
+    <h2 class="section-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="section-icon"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Audio Devices</h2>
+    <div class="devices-grid">
+      <div class="device-card glass-card" id="device1Card">
+        <div class="device-status disconnected" id="status1"><span class="status-dot"></span><span id="statusText1">Not Selected</span></div>
+        <h3>🎧 Headphone 1</h3>
+        <select id="device1Select" class="device-select"><option value="">Select audio device...</option></select>
+        <button class="btn-scan" id="scan1Btn" title="Scan Bluetooth"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg></button>
+        <div class="volume-control"><label>Volume</label><input type="range" id="volume1" min="0" max="100" value="80" class="slider"><span id="vol1Val">80%</span></div>
+      </div>
+      <div class="device-card glass-card" id="device2Card">
+        <div class="device-status disconnected" id="status2"><span class="status-dot"></span><span id="statusText2">Not Selected</span></div>
+        <h3>🎧 Headphone 2</h3>
+        <select id="device2Select" class="device-select"><option value="">Select audio device...</option></select>
+        <button class="btn-scan" id="scan2Btn" title="Scan Bluetooth"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg></button>
+        <div class="volume-control"><label>Volume</label><input type="range" id="volume2" min="0" max="100" value="80" class="slider"><span id="vol2Val">80%</span></div>
+      </div>
+    </div>
+    <div class="device-actions">
+      <button class="btn btn-outline" id="refreshDevices"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg> Refresh Devices</button>
+      <button class="btn btn-bt" id="btSetupBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.71 7.71L12 2h-1v7.59L6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 11 14.41V22h1l5.71-5.71-4.3-4.29 4.3-4.29zM13 5.83l1.88 1.88L13 9.59V5.83zm1.88 10.46L13 18.17v-3.76l1.88 1.88z"/></svg> Bluetooth Setup Guide</button>
+    </div>
+  </section>
+
+  <!-- Music Source -->
+  <section class="section source-section">
+    <div class="tabs">
+      <button class="tab active" data-tab="local"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg> Local Files</button>
+      <button class="tab" data-tab="spotify"><svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg> Spotify</button>
+    </div>
+
+    <!-- Local Files Tab -->
+    <div class="tab-content active" id="localTab">
+      <div class="drop-zone" id="dropZone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        <p>Drag & drop audio files here</p>
+        <span>or</span>
+        <button class="btn btn-primary" id="filePickerBtn">Browse Files</button>
+        <input type="file" id="filePicker" accept="audio/*" multiple hidden>
+        <p class="hint">MP3, WAV, OGG, FLAC supported</p>
+      </div>
+      <div class="playlist" id="playlist"></div>
+    </div>
+
+    <!-- Spotify Tab -->
+    <div class="tab-content" id="spotifyTab">
+      <div id="spotifyLogin" class="spotify-connect">
+        <div class="spotify-logo">
+          <svg viewBox="0 0 24 24" fill="#1DB954" width="64" height="64"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+        </div>
+        <h3>Connect to Spotify</h3>
+        <p>Enter your Spotify Client ID to stream music</p>
+        <div class="input-group">
+          <input type="text" id="clientIdInput" placeholder="Paste Spotify Client ID" class="text-input">
+          <button class="btn btn-spotify" id="spotifyConnectBtn">Connect</button>
+        </div>
+        <a href="https://developer.spotify.com/dashboard" target="_blank" class="help-link">Get a Client ID →</a>
+      </div>
+      <div id="spotifyPlayer" class="spotify-player" style="display:none">
+        <div id="spotifyUserInfo" class="spotify-user"></div>
+        <div id="spotifySearch" class="spotify-search">
+          <input type="text" id="searchInput" placeholder="Search songs, artists..." class="text-input">
+          <button class="btn btn-primary" id="searchBtn">Search</button>
+        </div>
+        <div id="searchResults" class="search-results"></div>
+        <div id="spotifyPlaylistsContainer"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Player -->
+  <section class="player-bar" id="playerBar">
+    <div class="now-playing">
+      <div class="album-art" id="albumArt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="24" height="24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+      <div class="track-info"><p class="track-name" id="trackName">No track selected</p><p class="track-artist" id="trackArtist">—</p></div>
+    </div>
+    <div class="player-controls">
+      <div class="control-buttons">
+        <button class="btn-control" id="prevBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/></svg></button>
+        <button class="btn-control btn-play" id="playBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" id="playIcon"><polygon points="5 3 19 12 5 21 5 3"/></svg></button>
+        <button class="btn-control" id="nextBtn"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M16 18h2V6h-2zM6 18l8.5-6L6 6z"/></svg></button>
+      </div>
+      <div class="progress-container">
+        <span class="time" id="currentTime">0:00</span>
+        <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div><div class="progress-thumb" id="progressThumb"></div></div>
+        <span class="time" id="duration">0:00</span>
+      </div>
+    </div>
+    <div class="equalizer" id="equalizer">
+      <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+    </div>
+  </section>
+
+  <!-- Hidden audio elements -->
+  <audio id="audio1" preload="auto"></audio>
+  <audio id="audio2" preload="auto"></audio>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

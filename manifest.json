@@ -1,0 +1,11 @@
+{
+  "name": "DualStream - Share Music Together",
+  "short_name": "DualStream",
+  "description": "Stream music to two Bluetooth headphones simultaneously",
+  "start_url": "./file.html",
+  "display": "standalone",
+  "background_color": "#0a0a1a",
+  "theme_color": "#0a0a1a",
+  "orientation": "portrait",
+  "icons": []
+}
